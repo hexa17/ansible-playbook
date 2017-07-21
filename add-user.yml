@@ -1,0 +1,19 @@
+---
+
+- hosts: tests
+  remote_user: hexa
+  become: yes
+  tasks:
+  - name: Create user
+    user:
+      name:    "hung.vp"
+      comment: "test adduser"
+      group:   sudo
+      shell:   /bin/bash
+
+  - name: Set authorized key took from file
+    # become_user: hung.vp
+    authorized_key:
+      user: hung.vp
+      state: present
+      key: "{{ lookup('file', '/home/teko/1.pub') }}"
